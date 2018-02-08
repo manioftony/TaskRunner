@@ -28,27 +28,6 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
-# from .celery import app as celery_app
-# CELERY_ACCEPT_CONTENT = ['json']
-
-
-
-
-BROKER_HOST = "localhost"
-BROKER_PORT = 5672
-BROKER_USER = "guest"
-BROKER_PASSWORD = "guest"
-BROKER_VHOST = "/"
-
-
-
-
-
-
-
-
-
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -104,10 +83,6 @@ DATABASES = {
 }
 
 
-
-import djcelery
-
-
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
 
@@ -145,3 +120,24 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+
+
+
+
+
+############ celery specific ###############
+# BROKER_URL = 'amqp://'
+# CELERY_ACCEPT_CONTENT = ['pickle']
+# CELERY_TASK_SERIALIZER = 'json'
+# CELERY_RESULT_SERIALIZER = 'json'
+
+BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+
+CELERY_RESULT_BACKEND = 'djcelery.backends.database:DatabaseBackend'
+CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
